@@ -73,7 +73,8 @@ disp('Jakobian funkcji celu: '); disp(J);
 
 options = optimoptions(@lsqnonlin,'Algorithm','levenberg-marquardt','MaxIter',30,'Display','iter','Jacobian','on');
 x0 = [0;0;0]; 
-[output] = lsqnonlin((rsat.^2 - (x-xsat).^2-(y-ysat).^2-(z-zsat).^2),x0,[],[],options);
+%[output] = lsqnonlin((rsat.^2 - (x-xsat).^2-(y-ysat).^2-(z-zsat).^2),x0,[],[],options);
+[output] = lsqnonlin(@Fmin,x0,[],[],options);
 
 
 
