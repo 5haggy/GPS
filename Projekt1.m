@@ -1,4 +1,4 @@
-% AMO - projekt  nr 1 Zestaw nr 3,System ”geograficzny”, 
+% AMO - projekt  nr 1 Zestaw nr 3,System â€ťgeograficznyâ€ť, 
 % Autor Piotr Piekarski
 
 clear; close; clc;
@@ -16,22 +16,22 @@ c_pow = 299702547; %predkosc swiatla w atmosferze ziemskiej
 h_pm = 6378137; %poziom morza wyrazony w metrach 
 
 szer = [52 52 19.2,
-    50 18 43.4,
-    47 47 48.9,
-    50 37 10.5,
-    55 29 17.8];
+        50 18 43.4,
+        47 47 48.9,
+        50 37 10.5,
+        55 29 17.8];
 
 dlug = [13 23 53.9,
-    12 22 24.1,
-    19 22 54.7,
-    26 14 39.3,
-    28 47 15.1];
+        12 22 24.1,
+        19 22 54.7,
+        26 14 39.3,
+        28 47 15.1];
 
 h_npm = 20000000*ones(5,1); %wysokosc satelit nad poziomem morza
 
 %czas sygnalu w centysekundach
-% tutaj mialem klopot z zaograglaniem malych liczb. Odpowiedni wspólczynnik
-% korygujacy do sekund dodany do równania
+% tutaj mialem klopot z zaograglaniem malych liczb. Odpowiedni wspĂłlczynnik
+% korygujacy do sekund dodany do rĂłwnania
 t_syg = [6.688938036445544,
     6.6912444592128830,
     6.6771094354187960,
@@ -49,14 +49,14 @@ xsat = rsat.*cos(szersat).*cos(dlugsat);
 ysat = rsat.*cos(szersat).*sin(dlugsat);
 zsat = rsat.*sin(szersat);
 
-%obliczenie odleglosci na podstawie czasu sygnału   
+%obliczenie odleglosci na podstawie czasu sygnaĹ‚u   
 dsat = c*k_t*t_syg;
 
 %Rownanie na podstawie danych
 %(x-xsat)^2+(y-ysat)^2+(z-zsat)^2 = rsat^2 --> wektor 5 rownan
 %szukane x ,y, z - polozenie celu
 
-%% 2 Zadanie optymalizacji bez ograniczeń stosując metodę najmniejszych kwadratów
+%% 2 Zadanie optymalizacji bez ograniczeĹ„ stosujÄ…c metodÄ™ najmniejszych kwadratĂłw
 %wyliczanie Jakobianu
 syms x y z
 rownanie = rsat.^2 - (x-xsat).^2-(y-ysat).^2-(z-zsat).^2; 
@@ -71,12 +71,44 @@ disp('Jakobian funkcji celu: '); disp(J);
 %syms x y z
 %rsat.^2 - (x-xsat).^2-(y-ysat).^2-(z-zsat).^2;
 
-options = optimoptions(@lsqnonlin,'Algorithm','levenberg-marquardt','MaxIter',30,'Display','iter','Jacobian','on');
-x0 = [0;0;0]; 
+
+    
+
+% options = optimset('Algorithm','interior-point','Gradobj','on','MaxFunEvals',50000,...
+% 'MaxIter',10000,'TolCon',1e-30,'TolFun',1e-30 ,'TolX',1e-40);
+
+%options =  optimoptions(@lsqnonlin,'Algorithm','levenberg-marquardt','MaxIter',30,'Display','iter','Jacobian','on');
+%options = optimset('Algorithm','levenberg-marquardt')
+options = optimoptions(@lsqnonlin,'Algorithm','levenberg-marquardt','MaxIter',20,'Display','iter','Jacobian','on')
+
+
+
+x0 = zeros(5,1); 
+y0 = zeros(5,1); 
+z0 = zeros(5,1); 
+f=@(x)Fmin(xsat,ysat,zsat,dsat,x0,y0,z0);
+
 %[output] = lsqnonlin((rsat.^2 - (x-xsat).^2-(y-ysat).^2-(z-zsat).^2),x0,[],[],options);
-[output] = lsqnonlin(@Fmin,x0,[],[],options);
+[X,RESNORM,RESIDUAL,EXITFLAG,OUTPUT,LAMBDA,JACOBIAN] = lsqnonlin(f,x0,[],[],options);
 
 
+% function wsp = Fmin(x,y,z)
+%     syms x y z;
+% 
+%     wsp = (dsat.^2 - ( (x - xsat).^2 + (y - ysat).^2 + (z - zsat).^2 )' );
+%     if nargout > 1
+%         Jac = double(subs(J,{x,y,z},{xsat,ysat,zsat}));
+%     end
+% end
+% [wsp Jac] = Fmin(x,y,z)
+% function [wsp Jac] = Fmin(x,y,z)
+%     syms x y z;
+%     
+%     wsp = (dsat.^2 - ( (x - xsat).^2 + (y - ysat).^2 + (z - zsat).^2 )' );
+%     if nargout > 1
+%         Jac = double(subs(J,{x,y,z},{xsat,ysat,zsat}));
+%     end
+% end
 
 
 
