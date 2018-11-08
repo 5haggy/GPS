@@ -86,7 +86,7 @@ options = optimoptions(@lsqnonlin,'Algorithm','levenberg-marquardt','MaxIter',20
 x0 = zeros(5,1); 
 y0 = zeros(5,1); 
 z0 = zeros(5,1); 
-f=@(x)Fmin(xsat,ysat,zsat,dsat,x0,y0,z0);
+f=@(x,y,z)Fmin(xsat,ysat,zsat,dsat,J,x0,y0,z0)
 
 %[output] = lsqnonlin((rsat.^2 - (x-xsat).^2-(y-ysat).^2-(z-zsat).^2),x0,[],[],options);
 [X,RESNORM,RESIDUAL,EXITFLAG,OUTPUT,LAMBDA,JACOBIAN] = lsqnonlin(f,x0,[],[],options);
