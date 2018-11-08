@@ -1,13 +1,13 @@
 %FUNKCJA fmin.m
-%   dzia³anie: tworzy funkcjê do minimalizacji
+%   dziaÅ‚anie: tworzy funkcjÄ™ do minimalizacji
 %   argumenty: x y z , dane satelit (xsat,ysat,zsat,dsat)
-%   zwraca:    funkcjê do minimalizacji
+%   zwraca:    funkcjÄ™ do minimalizacji
 
-function [wsp Jac]= Fmin(xsat,ysat,zsat,dsat,x,y,z)
+function [wsp Jac]= Fmin(xsat,ysat,zsat,dsat,J,x0,y0,z0)
     syms x y z;
-
-    wsp = (dsat.^2 - ( (x - xsat).^2 + (y - ysat).^2 + (z - zsat).^2 )' );
-    if nargout > 1
-        Jac = double(subs(J,{x,y,z},{xsat,ysat,zsat}));
-    end
+   % i= 1:5;
+    wsp = (dsat.^2 - ( (x0 - xsat).^2 + (y0 - ysat).^2 + (z0 - zsat).^2 ) );
+    %if nargout > 1
+    Jac = double(subs(J,{x,y,z},{xsat,ysat,zsat}));
+    %end
 end
