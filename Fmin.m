@@ -8,6 +8,6 @@ function [wsp Jac]= Fmin(xsat,ysat,zsat,dsat,J,x0,y0,z0)
    % i= 1:5;
     wsp = (dsat.^2 - ( (x0 - xsat).^2 + (y0 - ysat).^2 + (z0 - zsat).^2 ) );
     %if nargout > 1
-    Jac = double(subs(J,{x,y,z},{xsat,ysat,zsat}));
+    Jac = double(subs(J,{x,y,z},{xsat,ysat,zsat})); % tutaj  do poprawy bo robi za duzo kolumn
     %end
 end
