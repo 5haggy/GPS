@@ -1,4 +1,4 @@
-% AMO - projekt  nr 1 Zestaw nr 3,System â€ťgeograficznyâ€ť, 
+% AMO - projekt  nr 1 Zestaw nr 3,System Ă˘â‚¬ĹĄgeograficznyĂ˘â‚¬ĹĄ, 
 % Autor Piotr Piekarski
 
 clear; close; clc;
@@ -30,8 +30,8 @@ dlug = [13 23 53.9,
 h_npm = 20000000*ones(5,1); %wysokosc satelit nad poziomem morza
 
 %czas sygnalu w centysekundach
-% tutaj mialem klopot z zaograglaniem malych liczb. Odpowiedni wspĂłlczynnik
-% korygujacy do sekund dodany do rĂłwnania
+% tutaj mialem klopot z zaograglaniem malych liczb. Odpowiedni wspÄ‚Ĺ‚lczynnik
+% korygujacy do sekund dodany do rÄ‚Ĺ‚wnania
 t_syg = [6.688938036445544,
     6.6912444592128830,
     6.6771094354187960,
@@ -49,19 +49,19 @@ xsat = rsat.*cos(szersat).*cos(dlugsat);
 ysat = rsat.*cos(szersat).*sin(dlugsat);
 zsat = rsat.*sin(szersat);
 
-%obliczenie odleglosci na podstawie czasu sygnaĹ‚u   
+%obliczenie odleglosci na podstawie czasu sygnaÄąâ€šu   
 dsat = c*k_t*t_syg;
 
 %Rownanie na podstawie danych
 %(x-xsat)^2+(y-ysat)^2+(z-zsat)^2 = rsat^2 --> wektor 5 rownan
 %szukane x ,y, z - polozenie celu
 
-%% 2 Zadanie optymalizacji bez ograniczeĹ„ stosujÄ…c metodÄ™ najmniejszych kwadratĂłw
+%% 2 Zadanie optymalizacji bez ograniczeÄąâ€ž stosujĂ„â€¦c metodĂ„â„˘ najmniejszych kwadratÄ‚Ĺ‚w
 %wyliczanie Jakobianu
 syms x y z
 rownanie = rsat.^2 - (x-xsat).^2-(y-ysat).^2-(z-zsat).^2; 
 
-J= jacobian(rownanie,[x y z]);
+J= jacobian(rownanie,[x y z]); %% obliczyc analitycznie !!!!
 disp('Jakobian funkcji celu: '); disp(J);
 
 
@@ -70,9 +70,6 @@ disp('Jakobian funkcji celu: '); disp(J);
 
 %syms x y z
 %rsat.^2 - (x-xsat).^2-(y-ysat).^2-(z-zsat).^2;
-
-
-    
 
 % options = optimset('Algorithm','interior-point','Gradobj','on','MaxFunEvals',50000,...
 % 'MaxIter',10000,'TolCon',1e-30,'TolFun',1e-30 ,'TolX',1e-40);
